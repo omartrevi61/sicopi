@@ -76,6 +76,6 @@
         <span>&nbsp;</span>
 
         <a style="background-color: #366cf4; color: white;"  class="font-bold py-3 px-4 rounded" 
-        href="{{ url('proyectosExcel' . '/' . $tipoReporte . '/' . $cual)}}" target="_blank">Exportar a Excel</a>
+        href="{{ url('recibosExcel' . '/' . $tipoReporte . '/' . $cual)}}" target="_blank">Exportar a Excel</a>
     </div>
 </x-filament-panels::page>

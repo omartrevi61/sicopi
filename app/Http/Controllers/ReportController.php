@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Exports\EdoPtalExport;
+use App\Exports\RecibosExport;
+
 use Illuminate\Http\Request;
 
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -96,8 +98,7 @@ class ReportController extends Controller
         return Excel::download(new EdoPtalExport($tipoReporte, $cual), $reportName);
     }
 
-    
-    
+     
     //*****  Reportes de ContraRecibos  */
     public function rptRecibos($tipoReporte, $cual)  {
 
@@ -160,5 +161,22 @@ class ReportController extends Controller
 
         return $pdf->stream('proyectos.pdf');
 
+    }
+
+
+    // **** ContraRecibos a Excel
+    public function RecibosExcel($tipoReporte, $cual)
+    {
+        $reportName = '';
+
+        switch ($tipoReporte) {
+            case 0:  // relación de ContraRecibos
+                $reportName = 'RecibosExcel' . uniqid() . '.xlsx';
+            case 1:  // ContraRecibos a nivel documento
+                $reportName = 'RecibosExcel' . uniqid() . '.xlsx';
+ 
+            }
+        
+        return Excel::download(new RecibosExport($tipoReporte, $cual), $reportName);
     }
 }

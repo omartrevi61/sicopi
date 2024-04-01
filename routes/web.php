@@ -38,4 +38,7 @@ Route::get('EdoPtalExcel/{tipoReporte}/{cual}', [ReportController::class, 'EdoPt
 // reportes de ContraRecibos en PDF
 Route::get('rptRecibos/{tipoReporte}/{cual}', [ReportController::class, 'rptRecibos'])->name('rptRecibos');
 
+// ContraRecibos a Excel
+Route::get('recibosExcel/{tipoReporte}/{cual}', [ReportController::class, 'RecibosExcel'])->name('RecibosExcel');
+
 
