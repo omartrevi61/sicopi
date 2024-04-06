@@ -52,7 +52,7 @@ class ProyectoResource extends Resource
                             ->unique(ignoreRecord: true)
                             ->maxLength(255),
                         ]),
-                    Forms\Components\TextArea::make('titulo')
+                    Forms\Components\Textarea::make('titulo')
                         ->label('Título del Proyecto')
                         ->columnSpan('full')
                         ->rows(3)
