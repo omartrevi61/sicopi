@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
 
             $table->date('fecha');
-            $table->foreignId('proyecto_id')->references('id')->on('proyectos');
-            $table->foreignId('tipo_pago_id')->references('id')->on('tipo_pagos');
+            $table->foreignId('proyecto_id')->references('id')->on('proyectos')->onDelete('cascade');
+            $table->foreignId('tipo_pago_id')->nullable()->references('id')->on('tipo_pagos')->nullOnDelete();
             $table->string('beneficiario', 255);
             // $table->decimal('total', 11, 2);
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('administrativo_id')->references('id')->on('administrativos');
             
             $table->timestamps();

@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             TipoPagoSeeder::class,
             TipoProyectoSeeder::class,
             CentroSeeder::class,
+            AdministrativoSeeder::class,
         ]);
 
         // \App\Models\User::factory(10)->create();

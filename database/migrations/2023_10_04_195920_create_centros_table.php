@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('centro')->unsigned()->unique();
             $table->string('nombre');
             $table->string('coordinador')->nullable();
-            $table->foreignId('ubpp_id')->constrained();
+            $table->foreignId('ubpp_id')->nullable()->constrained()->nullOnDelete();
             $table->integer('proy_ptal');
             
             $table->timestamps();

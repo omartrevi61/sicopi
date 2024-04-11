@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('recibo_items', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('recibo_id')->references('id')->on('recibos')->onDelete('cascade');;
+            $table->foreignId('recibo_id')->references('id')->on('recibos')->onDelete('cascade');
             $table->foreignId('provedor_id')->nullable()->references('id')->on('provedors')->nullOnDelete();
             $table->string('factura')->unique();
             $table->date('fecha_factura');

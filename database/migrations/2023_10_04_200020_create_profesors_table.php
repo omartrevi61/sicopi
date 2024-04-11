@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('apellidos');
             $table->string('grado', 10);
-            $table->foreignId('ubpp_id')->constrained();
+            $table->foreignId('ubpp_id')->nullable()->constrained()->nullOnDelete();
             $table->string('email')->nullable();
             $table->string('telefono', 50)->nullable();
 
