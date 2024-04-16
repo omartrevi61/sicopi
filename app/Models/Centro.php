@@ -21,4 +21,10 @@ class Centro extends Model
     {
         return $this->belongsTo(Ubpp::class);
     }
+
+    // un centro puede tener varios proyectos
+    public function proyectos()
+    {
+       return $this->hasMany(Proyecto::class);
+    }
 }

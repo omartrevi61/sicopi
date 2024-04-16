@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Grid;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\Summarizers\Sum;
+use Filament\Notifications\Notification;
 
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
@@ -238,7 +239,27 @@ class ProyectoResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+
+                Tables\Actions\DeleteAction::make()
+                    ->action(function ($data, $record) {
+                        if ($record->recibos()->count() > 0) {
+                            Notification::make()
+                                ->danger()
+                                ->title('No se puede eliminar ese Proyecto')
+                                ->body('EL PROYECTO TIENE CONTRA-RECIBOS')
+                                ->send();
+
+                            return;
+                        }
+
+                        $record->delete();
+
+                        Notification::make()
+                                ->success()
+                                ->title('Proyecto eliminado')
+                                ->body('Proyecto eliminado correctamente')
+                                ->send();
+                    })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

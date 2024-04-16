@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Grid;
-
+use Filament\Notifications\Notification;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class ProfesorResource extends Resource
@@ -109,7 +109,26 @@ class ProfesorResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->action(function ($data, $record) {
+                        if ($record->proyectos()->count() > 0) {
+                            Notification::make()
+                                ->danger()
+                                ->title('No se puede eliminar ese Profesor')
+                                ->body('EL PROFESOR TIENE PROYECTOS')
+                                ->send();
+
+                            return;
+                        }
+
+                        $record->delete();
+
+                        Notification::make()
+                                ->success()
+                                ->title('Profesor eliminado')
+                                ->body('Profesor eliminado correctamente')
+                                ->send();
+                    })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

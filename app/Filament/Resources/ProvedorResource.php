@@ -14,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Notifications\Notification;
 
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
@@ -84,7 +85,27 @@ class ProvedorResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+
+                Tables\Actions\DeleteAction::make()
+                    ->action(function ($data, $record) {
+                        if ($record->documentos()->count() > 0) {
+                            Notification::make()
+                                ->danger()
+                                ->title('No se puede eliminar ese Proveedor')
+                                ->body('EL PROVEEDOR TIENE CONTRA-RECIBOS')
+                                ->send();
+
+                            return;
+                        }
+
+                        $record->delete();
+
+                        Notification::make()
+                                ->success()
+                                ->title('Proveedor eliminado')
+                                ->body('Proveedor eliminado correctamente')
+                                ->send();
+                    })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('proyecto', 30)->unique();
             $table->text('titulo');
 
-            $table->foreignId('tipo_proyecto_id')->nullable()->references('id')->on('tipo_proyectos')->nullOnDelete();
+            $table->foreignId('tipo_proyecto_id')->references('id')->on('tipo_proyectos');
             $table->foreignId('profesor_id')->references('id')->on('profesors');
-            $table->foreignId('centro_id')->nullable()->references('id')->on('centros')->nullOnDelete();
+            $table->foreignId('centro_id')->references('id')->on('centros');
             $table->decimal('aprobado', 11, 2);
             $table->integer('porcentaje');
 

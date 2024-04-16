@@ -20,6 +20,7 @@ use Filament\Forms\Components\Section;
 use Illuminate\Support\Facades\Hash;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Group;
+use Filament\Notifications\Notification;
 
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
@@ -109,7 +110,27 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+
+                Tables\Actions\DeleteAction::make()
+                    ->action(function ($data, $record) {
+                        if ($record->recibos()->count() > 0) {
+                            Notification::make()
+                                ->danger()
+                                ->title('No se puede eliminar ese Usuario')
+                                ->body('EL USUARIO ELABORÓ CONTRA-RECIBOS')
+                                ->send();
+
+                            return;
+                        }
+
+                        $record->delete();
+
+                        Notification::make()
+                                ->success()
+                                ->title('Usuario eliminado')
+                                ->body('Usuario eliminado correctamente')
+                                ->send();
+                    })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

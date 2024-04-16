@@ -13,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Notifications\Notification;
 
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
@@ -112,7 +113,27 @@ class CentroResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+
+                Tables\Actions\DeleteAction::make()
+                    ->action(function ($data, $record) {
+                        if ($record->proyectos()->count() > 0) {
+                            Notification::make()
+                                ->danger()
+                                ->title('No se puede eliminar ese Centro')
+                                ->body('EL CENTRO TIENE PROYECTOS')
+                                ->send();
+
+                            return;
+                        }
+
+                        $record->delete();
+
+                        Notification::make()
+                                ->success()
+                                ->title('Centro eliminado')
+                                ->body('Centro eliminado correctamente')
+                                ->send();
+                    })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

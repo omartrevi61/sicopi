@@ -17,4 +17,10 @@ class Provedor extends Model
         'clabe',
         'banco',
      ];
+
+     // un proveedor tiene varios Documentos (facturas) (ReciboItem)
+    public function documentos()
+    {
+      return $this->hasMany(ReciboItems::class);
+    }
 }

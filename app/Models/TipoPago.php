@@ -12,4 +12,10 @@ class TipoPago extends Model
     protected $fillable = [
         'nombre',
     ];
+
+    // un Tipo de Pago existe en varios contra-recibos
+    public function recibos()
+    {
+      return $this->hasMany(Recibo::class);
+    }
 }

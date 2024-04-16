@@ -13,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Notifications\Notification;
 
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
@@ -59,7 +60,27 @@ class TipoPagoResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+
+                Tables\Actions\DeleteAction::make()
+                ->action(function ($data, $record) {
+                    if ($record->recibos()->count() > 0) {
+                        Notification::make()
+                            ->danger()
+                            ->title('No se puede eliminar ese Tipo de Pago')
+                            ->body('EXISTEN CONTRA-RECIBOS CON ESE TIPO')
+                            ->send();
+
+                        return;
+                    }
+
+                    $record->delete();
+
+                    Notification::make()
+                            ->success()
+                            ->title('Tipo de Pago eliminado')
+                            ->body('Tipo de Pago eliminado correctamente')
+                            ->send();
+                })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

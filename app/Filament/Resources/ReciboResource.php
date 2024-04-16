@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 use Filament\Tables\Actions\Action;
-
+use Illuminate\Notifications\Notification;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class ReciboResource extends Resource
@@ -147,10 +147,12 @@ class ReciboResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+
                 Action::make('Imprimir')
                     ->icon('heroicon-o-printer')
                     ->url(fn(Recibo $record) => route('recibo.pdf', $record))
                     ->openUrlInNewTab(),
+
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([

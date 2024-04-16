@@ -12,4 +12,10 @@ class TipoProyecto extends Model
     protected $fillable = [
         'nombre',
     ];
+
+    // un Tipo de Proyecto puede tener varios proyectos
+    public function proyectos()
+    {
+       return $this->hasMany(Proyecto::class);
+    }
 }

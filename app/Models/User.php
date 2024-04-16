@@ -79,4 +79,10 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->belongsTo(Profesor::class);
     }
+
+    // un usuario tiene varios contra-recibos (capturó contra-recibos)
+    public function recibos()
+    {
+      return $this->hasMany(Recibo::class);
+    }
 }
